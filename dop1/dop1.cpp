@@ -3,12 +3,12 @@
 using namespace std;
 
 struct stack {
-    string inf;
+    char inf;
     stack* next;
 };
 
 // Добавление элемента в стек (в начало списка)
-void push(stack*& h, string x) {
+void push(stack*& h, char x) {
     stack* r = new stack;  // создаём новый узел
     r->inf = x;            // записываем значение
     r->next = h;           // связываем с текущей вершиной
@@ -16,43 +16,76 @@ void push(stack*& h, string x) {
 }
 
 // Извлечение элемента из стека (с удалением)
-string pop(stack*& h) {
-    string i = h->inf;        // сохраняем значение из вершины
+char pop(stack*& h) {
+    char i = h->inf;        // сохраняем значение из вершины
     stack* r = h;          // запоминаем удаляемый узел
     h = h->next;           // сдвигаем вершину на следующий
     delete r;              // освобождаем память
     return i;              // возвращаем значение
 }
 
-int prior(string x) {
-    if (x == "(") {
+int prior(char x) {
+    if (x == '(') {
         return 1;
     }
-    else if (x == "*" || x == "+") {
+    else if (x == '-' || x == '+') {
         return 2;
     }
-    else {
+    else if (x == '*' || x == '/') {
         return 3;
     }
 }
 
-bool oper(string x) {
-    string sravn = "+-+/()";
-}
-
-int main()
-{
-    string s, res = "";
-    cout << "Введите математическое выражение: ";
-    cin >> s;
-    stack* h = NULL;
-    while (s.length()) {
-        string simb = s.substr(0, 1);
-        if (simb == "(") {
-            push(h, simb);
-        }
-        else if (!h) {
-
+bool oper(char x) {
+    string sravn = "+-*/()";
+    for (char c : sravn) {
+        if (x == c) {
+            return false;
         }
     }
+    return true;
+}
+
+int main() //a*(b+c*d)+e
+{
+    setlocale(LC_ALL, "Russian_Russia.65001");
+    string s, res = "";
+    cout << "Введите математическое выражение в корректной форме: ";
+    getline(cin, s);
+    stack* h = NULL;
+    for (char c : s) {
+        if (c == ' ') {
+            continue;
+        }
+        if (oper(c)) {
+            res += c;
+        }
+        else if ((c == '(' || !h) && (c != ')')) {
+            push(h, c);
+        }
+        else if (c == ')') {
+            while (h) {
+                char verh = pop(h);
+                if (verh == '(') {
+                    break;
+                }
+                else {
+                    res += verh;
+                }
+            }
+        }
+        else if (prior(c) > prior(h->inf)) {
+            push(h, c);
+        }
+        else {
+            while (h && prior(c) <= prior(h->inf)) {
+                res += pop(h);
+            }
+            push(h, c);
+        }
+    }
+    while (h) {
+        res += pop(h);
+    }
+    cout << res;
 }
