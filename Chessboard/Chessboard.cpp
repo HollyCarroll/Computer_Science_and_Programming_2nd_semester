@@ -1,6 +1,8 @@
 ﻿
 #include <iostream>
 #include <string>
+#include <utility>
+#include <clocale> 
 
 using namespace std;
 
@@ -35,15 +37,15 @@ void reverse(stack*& h) {
     h = head1;              // результат в исходном указателе
 }
 
+struct history {
+    pair<int, int> inf;
+    history* prev;
+};
+
 struct queue {
     pair<int, int> inf;
     queue* next;
     history* his;
-};
-
-struct history {
-    pair<int, int> inf;
-    history* prev;
 };
 
 history* newhis(history* past, pair<int, int> x) { //возвращает указатель на новый элемент
@@ -85,9 +87,9 @@ int main()
     cin >> start >> finish;
     pair<int, int> st, fn;
     st.first = (int)start[0] - 64;
-    st.second = (int)start[1];
+    st.second = start[1] - '0';
     fn.first = (int)finish[0] - 64;
-    fn.second = (int)finish[1];
+    fn.second = finish[1] - '0';
     pair<int, int> hod[8] = { {1, 2 }, {2, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}, {-2, 1}, {-1, 2} };
     history first;
     first.inf = st;
