@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Progagit\\Computer_Science_and_Programming_2nd_semester\\tree1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0D861411-6258-4E49-9D09-31518FA417EE}|tree1.vcxproj|C:\\Progagit\\Computer_Science_and_Programming_2nd_semester\\tree1\\tree1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{0D861411-6258-4E49-9D09-31518FA417EE}|tree1.vcxproj|solutionrelative:tree1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "tree1.cpp",
+              "DocumentMoniker": "C:\\Progagit\\Computer_Science_and_Programming_2nd_semester\\tree1\\tree1.cpp",
+              "RelativeDocumentMoniker": "tree1.cpp",
+              "ToolTip": "C:\\Progagit\\Computer_Science_and_Programming_2nd_semester\\tree1\\tree1.cpp",
+              "RelativeToolTip": "tree1.cpp",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAAAD8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-04-26T19:59:20.952Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
