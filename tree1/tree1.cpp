@@ -1,5 +1,7 @@
 ﻿#include <iostream>
 #include <string>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 struct tree {
@@ -105,61 +107,57 @@ tree* Prev(tree* tr, int x) { // поиск предыдущего
     return y; // возвращаем родителя
 }
 
-void Delete(tree*& tr, tree* v) { // удаление узла
-    tree* p = v->parent;
-    if (!p)
-        tr = NULL; // дерево содержит один узел
-    else if (!v->left && !v->right) { // если нет детей
-        if (p->left == v) // указатель у родителя меняем на NULL
-            p->left = NULL;
-        if (p->right == v)
-            p->right = NULL;
-        delete v;
-    }
-    else if (!v->left || !v->right) { // если только один ребенок
-        if (!p) { // если удаляем корень, у которого 1 ребенок
-            if (!v->left) { // если есть правый ребенок
-                tr = v->right; // он становится корнем
-                v->parent = NULL;
-            }
-            else { // аналогично для левого
-                tr = v->left;
-                v->parent = NULL;
-            }
+void Delete(tree*& tr, tree* v) { //новое удаление
+    if (!v) return;
+
+    // Случай 1: нет детей
+    if (!v->left && !v->right) {
+        if (!v->parent) {          // корень-лист
+            delete v;
+            tr = NULL;
         }
         else {
-            if (!v->left) { // если есть правый ребенок
-                if (p->left == v) // если удаляемый узел явл. левым ребенком
-                    p->left = v->right; // ребенок удаляемого узла становится левым ребенком своего "деда"
-                else
-                    p->right = v->right; // ребенок удаляемого узла становится правым ребенком своего "деда"
-                v->right->parent = p; // родителем ребенка становится его "дед"
-            }
-            else { // аналогично для левого ребенка
-                if (p->left == v)
-                    p->left = v->left;
-                else
-                    p->right = v->left;
-                v->left->parent = p;
-            }
+            if (v->parent->left == v) v->parent->left = NULL;
+            else v->parent->right = NULL;
             delete v;
         }
+        return;
     }
-    else { // есть оба ребенка
-        tree* succ = Next(tr, v->inf); // следующий за удаляемым узлом
-        v->inf = succ->inf; // присваиваем значение
-        if (succ->parent->left == succ) { // если succ - левый ребенок
-            succ->parent->left = succ->right; // его правый ребенок становится левым ребенком своего "деда"
-            if (succ->right) // если этот ребенок существует
-                succ->right->parent = succ->parent; // его родителем становится "дед"
+
+    // Случай 2: только один ребёнок
+    if (!v->left || !v->right) {
+        tree* child = v->left ? v->left : v->right;
+        if (!v->parent) {          // корень с одним ребёнком
+            tr = child;
+            child->parent = NULL;
         }
-        else { // аналогично если succ - правый ребенок
-            succ->parent->right = succ->right;
-            if (succ->right)
-                succ->right->parent = succ->parent;
+        else {
+            if (v->parent->left == v) v->parent->left = child;
+            else v->parent->right = child;
+            child->parent = v->parent;
         }
-        delete succ;
+        delete v;
+        return;
     }
+
+    // Случай 3: два ребёнка
+    tree* succ = Next(tr, v->inf); // преемник
+    v->inf = succ->inf;
+    Delete(tr, succ);              // рекурсивно удаляем преемника
+}
+
+void leafs(tree* tr, vector<pair<int, tree*>>& vec) { // симметричный обход и копировние элементов в vec
+    if (tr) {
+        leafs(tr->left, vec);
+        if (!(tr->left) && !(tr->right)) {
+            pair<int, tree*> p;
+            p.first = tr->inf;
+            p.second = tr;
+            vec.push_back(p);
+        }
+        leafs(tr->right, vec);
+    }
+
 }
 
 int main() {
@@ -176,18 +174,19 @@ int main() {
     cout << "Дерево бинарного поиска ";
     inorder(tr);
     cout << endl;
-    cout << "min = " << Min(tr)->inf << endl;
-    cout << "max = " << Max(tr)->inf << endl;
-    cout << "x = ";
-    cin >> x;
-    if (find(tr, x)) {
-        cout << "next = " << Next(tr, x)->inf << endl;
-        cout << "prev = " << Prev(tr, x)->inf << endl;
-        Delete(tr, find(tr, x));
-        inorder(tr);
-        cout << endl;
+    vector<pair<int, tree*>> vec;
+    leafs(tr, vec);
+    sort(vec.begin(), vec.end());
+    if (vec.empty()) {
+        cout << "Нет листьев в дереве" << endl;
+        return 0;
     }
-    else
-        cout << "Such node not exist in this tree\n";
+    tree* medium = vec[((vec.size()-1)/2)].second;
+    if (medium -> parent && medium->parent->parent) {
+        Delete(tr, medium->parent->parent);
+        cout << "Дерево бинарного поиска ";
+        inorder(tr);
+    }
+    else cout << "У нужного листа нет 'деда'" << endl;
     return 0;
 }
