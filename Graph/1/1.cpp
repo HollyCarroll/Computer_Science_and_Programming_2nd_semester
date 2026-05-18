@@ -40,7 +40,14 @@ int main()
     }
 
     vector<vector<int>> adj = buildAdList(N, edges);
-
+    cout << "Список смежности:\n";
+    for (int i = 0; i < N; ++i) {
+        cout << i << ": ";
+        for (int v : adj[i]) {
+            cout << v << " ";
+        }
+        cout << "\n";
+    }
     int x;
     cout << "Введите номер вершины от 0 до" << adj.size() - 1 << "\n";
     cin >> x;
