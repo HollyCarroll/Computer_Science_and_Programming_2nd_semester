@@ -36,6 +36,7 @@ int main()
     vector<pair<int, int>> edges(M);
     cout << "Введите пары вершин (нумерация с 0):\n";
     for (int i = 0; i < M; ++i) {
+        cout << i << ". ";
         cin >> edges[i].first >> edges[i].second;
     }
 
@@ -48,6 +49,7 @@ int main()
         }
         cout << "\n";
     }
+    cout << "Степень каждой вершины:\n";
     for (int i = 0; i < adj.size(); i++) {
         cout << i << ": " << adj[i].size() << endl;
     }

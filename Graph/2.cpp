@@ -38,37 +38,9 @@ void push(stack*& h, int x) {
     h = r;                 // новая вершина — r
 }
 
-int pop(stack*& h) {
-    int i = h->inf;        // сохраняем значение из вершины
-    stack* r = h;          // запоминаем удаляемый узел
-    h = h->next;           // сдвигаем вершину на следующий
-    delete r;              // освобождаем память
-    return i;              // возвращаем значение
-}
-
-void obhod_v_glubinu(vector<vector<int>>& graph, int x) {
-    stack* h = NULL;
-    vector<bool> visited(graph.size(), false);
-    push(h, x);
-    visited[x] = true;
-    while (h) {
-        int q = pop(h);
-        for (int i = ((int)graph[q].size()) - 1; i >= 0; --i) {
-            if (!visited[graph[q][i]]) {
-                visited[graph[q][i]] = true;
-                push(h, graph[q][i]);
-            }
-        }
-    }
-    for (int i = 0; i < visited.size(); i++) {
-        if (!visited[i]) {
-            cout << i << endl;
-        }
-    }
-}
 int main()
 {
-
+    
     setlocale(LC_ALL, "RU");
     int N, M;
     cout << "Введите количество вершин и рёбер: ";
@@ -77,11 +49,11 @@ int main()
     vector<pair<int, int>> edges(M);
     cout << "Введите пары вершин (нумерация с 0):\n";
     for (int i = 0; i < M; ++i) {
+        cout << i << ". ";
         cin >> edges[i].first >> edges[i].second;
     }
 
     vector<vector<int>> adj = buildAdList(N, edges);
-    // Вывод списка смежности
     cout << "Список смежности:\n";
     for (int i = 0; i < N; ++i) {
         cout << i << ": ";
@@ -90,11 +62,38 @@ int main()
         }
         cout << "\n";
     }
-
-    cout << "Введите вершину: ";
-    int x;
-    cin >> x;
-    obhod_v_glubinu(adj, x);
-
-
+    cout << "Введите вершины A и B и направление ребра от 0 до " << adj.size() - 1 << "\n";
+    int A, B, dir;
+    cout << "A = ";
+    cin >> A;
+    cout << "B = ";
+    cin >> B;
+    cout << "Направление, 0 - от A к B, 1 - от B к A, 2 - двусторонний: ";
+    cin >> dir;
+    if (!dir) {
+        adj[A].push_back(B);
+        sort(adj[A].begin(), adj[A].end());
+        adj[A].erase(unique(adj[A].begin(), adj[A].end()), adj[A].end());
+    }
+    else if (dir == 1) {
+        adj[B].push_back(A);
+        sort(adj[B].begin(), adj[B].end());
+        adj[B].erase(unique(adj[B].begin(), adj[B].end()), adj[B].end());
+    }
+    else if (dir == 2) {
+        adj[A].push_back(B);
+        sort(adj[A].begin(), adj[A].end());
+        adj[A].erase(unique(adj[A].begin(), adj[A].end()), adj[A].end());
+        adj[B].push_back(A);
+        sort(adj[B].begin(), adj[B].end());
+        adj[B].erase(unique(adj[B].begin(), adj[B].end()), adj[B].end());
+    }
+    cout << "Новый список смежности:\n";
+    for (int i = 0; i < N; ++i) {
+        cout << i << ": ";
+        for (int v : adj[i]) {
+            cout << v << " ";
+        }
+        cout << "\n";
+    }
 }

@@ -34,8 +34,9 @@ int main()
     cin >> N >> M;
 
     vector<pair<int, int>> edges(M);
-    cout << "Введите пары вершин (нумерация с 0):\n";
+    cout << "Введите пары вершин (нумерация вершин с 0):\n";
     for (int i = 0; i < M; ++i) {
+        cout << i << ". ";
         cin >> edges[i].first >> edges[i].second;
     }
 
@@ -49,7 +50,7 @@ int main()
         cout << "\n";
     }
     int x;
-    cout << "Введите номер вершины от 0 до" << adj.size() - 1 << "\n";
+    cout << "Введите номер вершины от 0 до " << adj.size() - 1 << "\n";
     cin >> x;
     cout << "Количество вершин, смежных с данной: " << adj[x].size();
 
