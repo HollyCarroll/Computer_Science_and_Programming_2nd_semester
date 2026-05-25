@@ -2,37 +2,19 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include <windows.h>   // РІ РЅР°С‡Р°Р»Рµ С„Р°Р№Р»Р°
+#include <windows.h>   // в начале файла
 
 using namespace std;
 
-// РЎС‚СЂСѓРєС‚СѓСЂР° СѓР·Р»Р° РґРІСѓСЃРІСЏР·РЅРѕРіРѕ СЃРїРёСЃРєР°
+// Структура узла двусвязного списка
 struct list {
     vector<string> inf;
     list* next;
     list* prev;
 };
 
-// 1. Р’СЃС‚Р°РІРєР° СЌР»РµРјРµРЅС‚Р° РІ РєРѕРЅРµС† СЃРїРёСЃРєР°
-void push_back(list*& a, vector<string> x) { //СЌР»РµРјРµРЅС‚ РјР°СЃСЃРёРІР° С‚СЂРµР±СѓРµРј РїРѕРґС…РѕРґСЏС‰РёР№ РїРѕРґ РєР»СЋС‡ Рё РІРµРєС‚РѕСЂ СЃРѕС‚СЂСѓРґРЅРёРєР°
-    list* r = new list;
-    r->inf = x;
-    r->next = NULL;
-    r->prev = NULL;
-    if (!a) {
-        a = r;
-    }
-    else {
-        list* cur = a;
-        while (cur->next) {
-            cur = cur->next;
-        }
-        cur->next = r;
-        r -> prev = cur;
-        
-    }
-}
-void push(list **& hash, int key, vector<string> vec) { //СЌР»РµРјРµРЅС‚ РјР°СЃСЃРёРІР° С‚СЂРµР±СѓРµРј РїРѕРґС…РѕРґСЏС‰РёР№ РїРѕРґ РєР»СЋС‡ Рё РІРµРєС‚РѕСЂ СЃРѕС‚СЂСѓРґРЅРёРєР°
+// вставка элемента в начало
+void push(list **& hash, int key, vector<string> vec) {
     list* r = new list;
     r->inf = vec;
     r->next = NULL;
@@ -54,6 +36,7 @@ void print(list** hash, int key) {
         cout << i << ": ";
         list* cur = hash[i];
         if (!cur) {
+            cout << "\n";
             continue;
         }
         while (cur) {
@@ -63,7 +46,7 @@ void print(list** hash, int key) {
             cout << "\n" << "   ";
             cur = cur->next;
         }
-        cout << endl;
+        cout << "\n";
     }
 }
 
@@ -74,20 +57,13 @@ void print_elem(list* x) {
     cout << "\n";
 }
 
-void vivod(vector<string> vec) {
-    for (auto elem : vec) {
-        cout << elem << " ";
-    }
-    cout << endl;
-}
-
+//возвращает вектор элементов с нужной зарплатой
 vector<list*> find_all(list** hash, int key, int z) {
     int m = z % key;
     list* cur = hash[m];
     vector<list*> finded;
     while (cur) {
         if (stoi(cur->inf[4]) == z) {
-            vivod(cur->inf);
             finded.push_back(cur);
         }
         cur = cur->next;
@@ -95,7 +71,7 @@ vector<list*> find_all(list** hash, int key, int z) {
     return finded;
 }
 
-
+//удаляет элемент переданный
 list** del(list** hash, int key, list * x) {
     if (x) {
         int m = stoi(x->inf[4]) % key;
@@ -118,8 +94,10 @@ list** del(list** hash, int key, list * x) {
         delete x;
         return hash;
     }
+    return hash;
 }
 
+//вводит элемент из строки в хэш-таблицу
 void vvod_elem(list**& hash, int key, string x) {
     vector<string> vec;
     string slovo = "";
@@ -137,7 +115,8 @@ void vvod_elem(list**& hash, int key, string x) {
     push(hash,key, vec);
 }
 
-void vvod(list**& hash, int key) { //РІРІРѕРґРёС‚ РґР°РЅРЅС‹Рµ РІ С…СЌС€-С‚Р°Р±Р»РёС†Сѓ Рё РІРѕР·РІСЂР°С‰Р°РµС‚ СЂР°Р·РјРµСЂ СЃС‚СЂРѕРє
+//вводит данные из файла f.txt в хэш-таблицу
+void vvod(list**& hash, int key) { 
     int n = 0;
     string line, slovo;
     ifstream in("f.txt");
@@ -167,28 +146,35 @@ void vvod(list**& hash, int key) { //РІРІРѕРґРёС‚ РґР°РЅРЅС‹Рµ РІ С…СЌС€-С‚Р°Р±Р
 }
 
 int main() {
-    //setlocale(LC_ALL, "ru_RU.UTF-8");
-    SetConsoleCP(1251);          // РІРІРѕРґ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹ РІ РєРѕРґРёСЂРѕРІРєРµ 1251
-    SetConsoleOutputCP(1251);    // РІС‹РІРѕРґ РІ РєРѕРЅСЃРѕР»СЊ РІ РєРѕРґРёСЂРѕРІРєРµ 1251
-    setlocale(LC_ALL, "Russian");
-    int key = 11;
+
+    // кодировка вывода (на экран
+    /*
+    setlocale(LC_ALL, "ru_RU.UTF-8");
+    SetConsoleCP(CP_UTF8); // Установка кодировки для ввода
+    SetConsoleOutputCP(CP_UTF8);// для функций C и C++
+    */
+    SetConsoleCP(1251);          // ввод с клавиатуры
+    SetConsoleOutputCP(1251);    // вывод на экран
+    setlocale(LC_ALL, "Russian"); // для C-функций
+    int key = 17;
     list** hash = new list*[key]();
     //int n = vvod(hash, key);
     vvod(hash, key);
     print(hash, key);
-    cout << "Р’РІРµРґРёС‚Рµ СЌР»РµРјРµРЅС‚ РґР»СЏ РІСЃС‚Р°РІРєРё" << endl;
+    cout << "Введите элемент для вставки" << endl;
     string x;
-    cin.ignore();
     getline(cin, x);
     vvod_elem(hash, key, x);
     print(hash, key);
-    cout << "Р’РІРµРґРёС‚Рµ Р·Р°СЂРїР»Р°С‚Сѓ РґР»СЏ РїРѕРёСЃРєР° Рё СѓРґР°Р»РµРЅРёСЏ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ СЃ РЅРµР№" << endl;
+    cout << "Введите зарплату для поиска и удаления сотрудников с ней" << endl;
     int z;
     cin >> z;
     vector<list*> finded = find_all(hash, key, z);
     for (auto elem : finded) {
+        print_elem(elem);
         hash = del(hash, key, elem);
     }
+    cout << "Новая хэш-таблица" << endl;
     print(hash, key);
     return 0;
     
