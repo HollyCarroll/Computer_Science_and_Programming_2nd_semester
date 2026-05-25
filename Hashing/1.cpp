@@ -1,19 +1,19 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <vector>
 #include <string>
 #include <fstream>
-#include <windows.h>   // в начале файла
+#include <windows.h>   // РІ РЅР°С‡Р°Р»Рµ С„Р°Р№Р»Р°
 
 using namespace std;
 
-// Структура узла двусвязного списка
+// РЎС‚СЂСѓРєС‚СѓСЂР° СѓР·Р»Р° РґРІСѓСЃРІСЏР·РЅРѕРіРѕ СЃРїРёСЃРєР°
 struct list {
     vector<string> inf;
     list* next;
     list* prev;
 };
 
-// вставка элемента в начало
+// РІСЃС‚Р°РІРєР° СЌР»РµРјРµРЅС‚Р° РІ РЅР°С‡Р°Р»Рѕ
 void push(list **& hash, int key, vector<string> vec) {
     list* r = new list;
     r->inf = vec;
@@ -57,7 +57,7 @@ void print_elem(list* x) {
     cout << "\n";
 }
 
-//возвращает вектор элементов с нужной зарплатой
+//РІРѕР·РІСЂР°С‰Р°РµС‚ РІРµРєС‚РѕСЂ СЌР»РµРјРµРЅС‚РѕРІ СЃ РЅСѓР¶РЅРѕР№ Р·Р°СЂРїР»Р°С‚РѕР№
 vector<list*> find_all(list** hash, int key, int z) {
     int m = z % key;
     list* cur = hash[m];
@@ -71,7 +71,7 @@ vector<list*> find_all(list** hash, int key, int z) {
     return finded;
 }
 
-//удаляет элемент переданный
+//СѓРґР°Р»СЏРµС‚ СЌР»РµРјРµРЅС‚ РїРµСЂРµРґР°РЅРЅС‹Р№
 list** del(list** hash, int key, list * x) {
     if (x) {
         int m = stoi(x->inf[4]) % key;
@@ -97,7 +97,7 @@ list** del(list** hash, int key, list * x) {
     return hash;
 }
 
-//вводит элемент из строки в хэш-таблицу
+//РІРІРѕРґРёС‚ СЌР»РµРјРµРЅС‚ РёР· СЃС‚СЂРѕРєРё РІ С…СЌС€-С‚Р°Р±Р»РёС†Сѓ
 void vvod_elem(list**& hash, int key, string x) {
     vector<string> vec;
     string slovo = "";
@@ -115,7 +115,7 @@ void vvod_elem(list**& hash, int key, string x) {
     push(hash,key, vec);
 }
 
-//вводит данные из файла f.txt в хэш-таблицу
+//РІРІРѕРґРёС‚ РґР°РЅРЅС‹Рµ РёР· С„Р°Р№Р»Р° f.txt РІ С…СЌС€-С‚Р°Р±Р»РёС†Сѓ
 void vvod(list**& hash, int key) { 
     int n = 0;
     string line, slovo;
@@ -147,26 +147,26 @@ void vvod(list**& hash, int key) {
 
 int main() {
 
-    // кодировка вывода (на экран
+    // РєРѕРґРёСЂРѕРІРєР° РІС‹РІРѕРґР° (РЅР° СЌРєСЂР°РЅ
     /*
     setlocale(LC_ALL, "ru_RU.UTF-8");
-    SetConsoleCP(CP_UTF8); // Установка кодировки для ввода
-    SetConsoleOutputCP(CP_UTF8);// для функций C и C++
+    SetConsoleCP(CP_UTF8); // РЈСЃС‚Р°РЅРѕРІРєР° РєРѕРґРёСЂРѕРІРєРё РґР»СЏ РІРІРѕРґР°
+    SetConsoleOutputCP(CP_UTF8);// РґР»СЏ С„СѓРЅРєС†РёР№ C Рё C++
     */
-    SetConsoleCP(1251);          // ввод с клавиатуры
-    SetConsoleOutputCP(1251);    // вывод на экран
-    setlocale(LC_ALL, "Russian"); // для C-функций
+    SetConsoleCP(1251);          // РІРІРѕРґ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹
+    SetConsoleOutputCP(1251);    // РІС‹РІРѕРґ РЅР° СЌРєСЂР°РЅ
+    setlocale(LC_ALL, "Russian"); // РґР»СЏ C-С„СѓРЅРєС†РёР№
     int key = 17;
     list** hash = new list*[key]();
     //int n = vvod(hash, key);
     vvod(hash, key);
     print(hash, key);
-    cout << "Введите элемент для вставки" << endl;
+    cout << "Р’РІРµРґРёС‚Рµ СЌР»РµРјРµРЅС‚ РґР»СЏ РІСЃС‚Р°РІРєРё" << endl;
     string x;
     getline(cin, x);
     vvod_elem(hash, key, x);
     print(hash, key);
-    cout << "Введите зарплату для поиска и удаления сотрудников с ней" << endl;
+    cout << "Р’РІРµРґРёС‚Рµ Р·Р°СЂРїР»Р°С‚Сѓ РґР»СЏ РїРѕРёСЃРєР° Рё СѓРґР°Р»РµРЅРёСЏ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ СЃ РЅРµР№" << endl;
     int z;
     cin >> z;
     vector<list*> finded = find_all(hash, key, z);
@@ -174,7 +174,7 @@ int main() {
         print_elem(elem);
         hash = del(hash, key, elem);
     }
-    cout << "Новая хэш-таблица" << endl;
+    cout << "РќРѕРІР°СЏ С…СЌС€-С‚Р°Р±Р»РёС†Р°" << endl;
     print(hash, key);
     return 0;
     

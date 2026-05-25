@@ -1,8 +1,8 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <vector>
 #include <string>
 #include <fstream>
-#include <windows.h>   // в начале файла
+#include <windows.h>   // РІ РЅР°С‡Р°Р»Рµ С„Р°Р№Р»Р°
 
 using namespace std;
 
@@ -18,8 +18,8 @@ void print_elem(vector<string> x) {
         cout << elem << " ";
     }
 }
-// Вставка элемента список
-void push(vector<string>*& hash, vector<string> x) { //элемент массива требуем подходящий под ключ и вектор сотрудника
+// Р’СЃС‚Р°РІРєР° СЌР»РµРјРµРЅС‚Р° СЃРїРёСЃРѕРє
+void push(vector<string>*& hash, vector<string> x) { //СЌР»РµРјРµРЅС‚ РјР°СЃСЃРёРІР° С‚СЂРµР±СѓРµРј РїРѕРґС…РѕРґСЏС‰РёР№ РїРѕРґ РєР»СЋС‡ Рё РІРµРєС‚РѕСЂ СЃРѕС‚СЂСѓРґРЅРёРєР°
     int help = hash_func_help(stoi(x[4]));
     if (!hash[help].size()) {
         hash[help] = x;
@@ -35,9 +35,9 @@ void push(vector<string>*& hash, vector<string> x) { //элемент массива требуем п
             }
         }
     }
-    cout << "Для элемента ";
+    cout << "Р”Р»СЏ СЌР»РµРјРµРЅС‚Р° ";
     print_elem(x);
-    cout << "нет подходящего места в хэш-таблице";
+    cout << "РЅРµС‚ РїРѕРґС…РѕРґСЏС‰РµРіРѕ РјРµСЃС‚Р° РІ С…СЌС€-С‚Р°Р±Р»РёС†Рµ";
 }
 
 void print(vector<string>*& hash) {
@@ -48,7 +48,7 @@ void print(vector<string>*& hash) {
     }
 }
 
-vector<vector<string>> find_all(vector<string>*& hash, int z) { //элемент массива требуем подходящий под ключ и вектор сотрудника
+vector<vector<string>> find_all(vector<string>*& hash, int z) { //СЌР»РµРјРµРЅС‚ РјР°СЃСЃРёРІР° С‚СЂРµР±СѓРµРј РїРѕРґС…РѕРґСЏС‰РёР№ РїРѕРґ РєР»СЋС‡ Рё РІРµРєС‚РѕСЂ СЃРѕС‚СЂСѓРґРЅРёРєР°
     int help = hash_func_help(z);
     int h;
     vector<bool> visited(key, false);
@@ -83,7 +83,7 @@ void vvod_elem(vector<string>*& hash, string x) {
     push(hash, vec);
 }
 
-void vvod(vector<string>*& hash) { //вводит данные в хэш-таблицу и возвращает размер строк
+void vvod(vector<string>*& hash) { //РІРІРѕРґРёС‚ РґР°РЅРЅС‹Рµ РІ С…СЌС€-С‚Р°Р±Р»РёС†Сѓ Рё РІРѕР·РІСЂР°С‰Р°РµС‚ СЂР°Р·РјРµСЂ СЃС‚СЂРѕРє
     int n = 0;
     string line, slovo;
     ifstream in("f.txt");
@@ -113,24 +113,24 @@ void vvod(vector<string>*& hash) { //вводит данные в хэш-таблицу и возвращает ра
 
 int main() {
 
-    // кодировка вывода (на экран
+    // РєРѕРґРёСЂРѕРІРєР° РІС‹РІРѕРґР° (РЅР° СЌРєСЂР°РЅ
     /*
     setlocale(LC_ALL, "ru_RU.UTF-8");
-    SetConsoleCP(CP_UTF8); // Установка кодировки для ввода
-    SetConsoleOutputCP(CP_UTF8);// для функций C и C++
+    SetConsoleCP(CP_UTF8); // РЈСЃС‚Р°РЅРѕРІРєР° РєРѕРґРёСЂРѕРІРєРё РґР»СЏ РІРІРѕРґР°
+    SetConsoleOutputCP(CP_UTF8);// РґР»СЏ С„СѓРЅРєС†РёР№ C Рё C++
     */
-    SetConsoleCP(1251);          // ввод с клавиатуры
-    SetConsoleOutputCP(1251);    // вывод на экран
-    setlocale(LC_ALL, "Russian"); // для C-функций
+    SetConsoleCP(1251);          // РІРІРѕРґ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹
+    SetConsoleOutputCP(1251);    // РІС‹РІРѕРґ РЅР° СЌРєСЂР°РЅ
+    setlocale(LC_ALL, "Russian"); // РґР»СЏ C-С„СѓРЅРєС†РёР№
     vector<string>* hash = new vector<string>[key]();
     vvod(hash);
     print(hash);
-    cout << "Введите элемент для вставки" << endl;
+    cout << "Р’РІРµРґРёС‚Рµ СЌР»РµРјРµРЅС‚ РґР»СЏ РІСЃС‚Р°РІРєРё" << endl;
     string x;
     getline(cin, x);
     vvod_elem(hash,x);
     print(hash);
-    cout << "Введите зарплату для поиска сотрудников с ней" << endl;
+    cout << "Р’РІРµРґРёС‚Рµ Р·Р°СЂРїР»Р°С‚Сѓ РґР»СЏ РїРѕРёСЃРєР° СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ СЃ РЅРµР№" << endl;
     int z;
     cin >> z;
     vector<vector<string>> finded = find_all(hash, z);
